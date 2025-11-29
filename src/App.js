@@ -14,7 +14,6 @@ import AdminLogs from "./pages/AdminLogs";
 import AdminDashboard from "./pages/AdminDashboard";
 import SOCMonitor from "./pages/admin/SOCMonitor";
 
-
 // Articles / Blog
 import Articles from "./pages/Articles";
 import ArticleTemplate from "./pages/articles/ArticleTemplate";
@@ -71,7 +70,7 @@ function App() {
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticleTemplate />} />
 
-            {/* AI Platform (Nested Routes) */}
+            {/* AI Platform */}
             <Route path="/ai" element={<AILayout />}>
               <Route index element={<CyberAI />} />
               <Route path="dashboard" element={<AIDashboardHome />} />
@@ -79,7 +78,6 @@ function App() {
               <Route path="lab" element={<AttackLab />} />
               <Route path="forensics" element={<ForensicsLab />} />
               <Route path="reports" element={<Reports />} />
-              
             </Route>
 
             {/* Admin */}
@@ -136,16 +134,4 @@ function App() {
   );
 }
 
-import { ThemeProvider } from "./context/ThemeContext";
-
-function App() {
-  return (
-    <ThemeProvider>
-      {/* existing code */}
-    </ThemeProvider>
-  );
-}
-
 export default App;
-
-

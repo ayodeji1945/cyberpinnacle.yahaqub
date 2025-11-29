@@ -2,10 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 // Automatically switch between local server & deployed backend
-const API_BASE =
-  process.env.NODE_ENV === "production"
-    ? "https://cyberpinnacle-backend.onrender.com"
-    : "http://localhost:5000";
+const API_BASE = "https://cyberpinnacle-backend.onrender.com";
 
 export default function CyberAI() {
   const [messages, setMessages] = useState([]);
@@ -71,7 +68,7 @@ export default function CyberAI() {
         ...prev,
         {
           sender: "bot",
-          text: "Error: Unable to connect to AI server.",
+          text: "⚠️ AI server offline or unreachable. Try again later.",
           time: new Date().toLocaleTimeString(),
         },
       ]);
