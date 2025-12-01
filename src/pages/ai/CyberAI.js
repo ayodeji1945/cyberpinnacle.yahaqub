@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-// Automatically switch between local server & deployed backend
-const API_BASE = "https://cyberpinnacle-backend.onrender.com";
+// Force axios to use deployed backend
+axios.defaults.baseURL = "https://cyberpinnacle-backend.onrender.com";
+axios.defaults.withCredentials = false;
 
 export default function CyberAI() {
   const [messages, setMessages] = useState([]);
@@ -51,9 +52,7 @@ export default function CyberAI() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${API_BASE}/ai`, {
-        prompt: userMsg.text,
-      });
+      const res = await axios.post("/ai", { prompt: userMsg.text });
 
       const botMsg = {
         sender: "bot",
@@ -63,7 +62,7 @@ export default function CyberAI() {
 
       setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
-      console.error(err);
+      console.error("AI REQUEST FAILED:", err);
       setMessages((prev) => [
         ...prev,
         {

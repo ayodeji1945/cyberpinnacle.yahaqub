@@ -13,6 +13,7 @@ import Team from "./pages/Team";
 import AdminLogs from "./pages/AdminLogs";
 import AdminDashboard from "./pages/AdminDashboard";
 import SOCMonitor from "./pages/admin/SOCMonitor";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 // Articles / Blog
 import Articles from "./pages/Articles";
@@ -37,6 +38,9 @@ import Login from "./pages/auth/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Leaderboard from "./pages/leaderboard/Leaderboard";
+import VerifyOTP from "./pages/auth/VerifyOTP";
+import VerifyEmail from "./pages/auth/VerifyEmail";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 // Training & Courses
 import Training from "./pages/training/Training";
@@ -80,10 +84,42 @@ function App() {
               <Route path="reports" element={<Reports />} />
             </Route>
 
-            {/* Admin */}
-            <Route path="/admin/logs" element={<AdminLogs />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/soc" element={<SOCMonitor />} />
+            {/* Admin (Protected Only for Admin Users) */}
+<Route
+  path="/admin/logs"
+  element={
+    <ProtectedAdminRoute>
+      <AdminLogs />
+    </ProtectedAdminRoute>
+  }
+/>
+
+<Route
+  path="/admin"
+  element={
+    <ProtectedAdminRoute>
+      <AdminDashboard />
+    </ProtectedAdminRoute>
+  }
+/>
+
+<Route
+  path="/admin/soc"
+  element={
+    <ProtectedAdminRoute>
+      <SOCMonitor />
+    </ProtectedAdminRoute>
+  }
+/>
+
+<Route
+  path="/admin/users"
+  element={
+    <ProtectedAdminRoute>
+      <AdminUsers />
+    </ProtectedAdminRoute>
+  }
+/>
 
             {/* CTF */}
             <Route path="/ctf" element={<CTF />} />
@@ -99,6 +135,10 @@ function App() {
             {/* Auth */}
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/verify-otp" element={<VerifyOTP />} />
+
+
 
             {/* Dashboard (User) */}
             <Route

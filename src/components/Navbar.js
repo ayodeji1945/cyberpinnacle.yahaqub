@@ -21,7 +21,6 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 text-green-400 font-semibold">
-
           <Link to="/" className="hover:text-green-300">Home</Link>
           <Link to="/about" className="hover:text-green-300">About</Link>
           <Link to="/team" className="hover:text-green-300">Team</Link>
@@ -41,13 +40,8 @@ export default function Navbar() {
 
             {trainingOpen && (
               <div className="absolute top-6 left-0 bg-black border border-green-400 rounded-lg p-3 space-y-2 w-56">
-                <Link to="/memberships" className="hover:text-green-300 block">Memberships</Link>
                 <Link to="/training-packages" className="hover:text-green-300 block">Training Packages</Link>
                 <Link to="/career-training" className="hover:text-green-300 block">Career Training</Link>
-                <Link to="/for-organizations" className="hover:text-green-300 block">For Organizations</Link>
-                <Link to="/list-courses" className="hover:text-green-300 block">List of Courses</Link>
-                <Link to="/training-paths" className="hover:text-green-300 block">Training Paths</Link>
-                <Link to="/compare-packages" className="hover:text-green-300 block">Compare Packages</Link>
               </div>
             )}
           </div>
@@ -61,28 +55,11 @@ export default function Navbar() {
             <span className="hover:text-green-300">Articles ▾</span>
 
             {articlesOpen && (
-  <div className="absolute top-6 left-0 bg-black border border-green-400 rounded-lg p-3 grid grid-cols-1 gap-2 w-64">
-    <Link to="/articles/ip-camera-hacking" className="hover:text-green-300 block">IP Camera Hacking</Link>
-    <Link to="/articles/bluetooth-hacking" className="hover:text-green-300 block">Bluetooth Hacking</Link>
-    <Link to="/articles/wifi-hacking" className="hover:text-green-300 block">Wi-Fi Hacking</Link>
-    <Link to="/articles/mobile-hacking" className="hover:text-green-300 block">Mobile Hacking</Link>
-    <Link to="/articles/cybersecurity-tools" className="hover:text-green-300 block">Cybersecurity Tools</Link>
-    <Link to="/articles/network-exploitation" className="hover:text-green-300 block">Network Exploitation</Link>
-    <Link to="/articles/database-hacking" className="hover:text-green-300 block">Database Hacking</Link>
-    <Link to="/articles/anti-forensics" className="hover:text-green-300 block">Anti-Forensics & OpSec</Link>
-    <Link to="/articles/osint" className="hover:text-green-300 block">OSINT & Recon</Link>
-    <Link to="/articles/bug-bounty" className="hover:text-green-300 block">Bug Bounty</Link>
-    <Link to="/articles/mrrobot" className="hover:text-green-300 block">Mr. Robot Hacks</Link>
-    <Link to="/articles/metasploit" className="hover:text-green-300 block">Metasploit</Link>
-    <Link to="/articles/web-exploitation" className="hover:text-green-300 block">Web Application Exploitation</Link>
-    <Link to="/articles/vuln-scanning" className="hover:text-green-300 block">Vulnerability Scanning</Link>
-    <Link to="/articles/fundamentals" className="hover:text-green-300 block">Hacking Fundamentals</Link>
-    <Link to="/articles/crypto" className="hover:text-green-300 block">Bitcoin & Crypto</Link>
-    <Link to="/articles/malware" className="hover:text-green-300 block">Malware Analysis</Link>
-    <Link to="/articles/linux" className="hover:text-green-300 block">Linux</Link>
-  </div>
-)}
-
+              <div className="absolute top-6 left-0 bg-black border border-green-400 rounded-lg p-3 grid grid-cols-1 gap-2 w-64">
+                <Link to="/articles/wifi-hacking" className="hover:text-green-300 block">Wi-Fi Hacking</Link>
+                <Link to="/articles/malware" className="hover:text-green-300 block">Malware Analysis</Link>
+              </div>
+            )}
           </div>
 
           <Link to="/ai" className="hover:text-green-300">AI Assistant</Link>
@@ -106,7 +83,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Button */}
         <button
           className="md:hidden text-green-400 text-3xl"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -114,6 +91,42 @@ export default function Navbar() {
           ☰
         </button>
       </div>
+
+      {/* Mobile Slide Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-black/95 border-t border-green-500 text-green-300 px-6 py-4 space-y-4 animate-slideDown">
+          <Link to="/" className="block text-lg font-semibold" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/about" className="block" onClick={() => setMenuOpen(false)}>About</Link>
+          <Link to="/courses" className="block" onClick={() => setMenuOpen(false)}>Courses</Link>
+          <Link to="/leaderboard" className="block" onClick={() => setMenuOpen(false)}>Leaderboard</Link>
+
+          <details>
+            <summary className="cursor-pointer font-semibold">Training</summary>
+            <div className="ml-3 mt-2 space-y-2 text-sm">
+              <Link to="/training-packages" className="block">Training Packages</Link>
+              <Link to="/career-training" className="block">Career Training</Link>
+            </div>
+          </details>
+
+          <details>
+            <summary className="cursor-pointer font-semibold">Articles</summary>
+            <div className="ml-3 mt-2 space-y-2 text-sm">
+              <Link to="/articles/wifi-hacking" className="block">Wi-Fi Hacking</Link>
+              <Link to="/articles/malware" className="block">Malware Analysis</Link>
+            </div>
+          </details>
+
+          <Link to="/ai" className="block text-lg">AI Assistant</Link>
+          <Link to="/dashboard" className="block text-lg">Dashboard</Link>
+
+          <button
+            onClick={logout}
+            className="w-full bg-red-600 text-black py-2 rounded-lg font-bold mt-4"
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </nav>
   );
 }
