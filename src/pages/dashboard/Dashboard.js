@@ -4,11 +4,13 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { useAuth } from "../../context/AuthContext";
 import { getScore } from "../../services/scoreService";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const { user } = useAuth();
   const [score, setScore] = useState(0);
   const [badges, setBadges] = useState([]);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const username =
@@ -20,7 +22,6 @@ export default function Dashboard() {
       try {
         setLoading(true);
 
-        // ✅ Make sure we pass user.uid
         const scoreValue = await getScore(user.uid);
         setScore(scoreValue || 0);
 
@@ -28,7 +29,9 @@ export default function Dashboard() {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
-          setBadges(userSnap.data().badges || []);
+          const data = userSnap.data();
+          setBadges(data.badges || []);
+          setEnrolledCourses(data.enrolledCourses || []);
         }
       } catch (err) {
         console.error("Dashboard load error:", err);
@@ -59,7 +62,8 @@ export default function Dashboard() {
       : "Rookie Hacker";
 
   return (
-    <div className="min-h-screen bg-black text-green-400 pt-28 px-4 md:px-8 pb-10">
+    <div className="min-h-screen bg-black text-green-400 pt-28 px-4 md:px-8 pb-20">
+      
       {/* Header */}
       <header className="max-w-6xl mx-auto mb-8">
         <p className="text-sm text-green-500/80">Dashboard</p>
@@ -68,55 +72,68 @@ export default function Dashboard() {
           <span className="text-green-300">{username}</span>
         </h1>
         <p className="text-sm md:text-base text-green-500/80 max-w-2xl">
-          Track your CTF performance, rank, and badges as you complete
-          challenges on CyberPinnacle.
+          Track your learning, CTF progress, rank, badges, and courses.
         </p>
       </header>
 
-      {/* Summary Cards */}
+      {/* Stats Cards */}
       <section className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-        <StatCard
-          label="CTF Score"
-          value={score}
-          hint="Earn points by solving challenges"
-        />
-        <StatCard
-          label="Challenges Completed"
-          value={challengesCompleted}
-          hint="Estimated, based on 50 pts per challenge"
-        />
-        <StatCard
-          label="Rank"
-          value={rank}
-          hint="Climb the ranks by scoring more"
-        />
+        <StatCard label="CTF Score" value={score} hint="Earn points by solving challenges" />
+        <StatCard label="Challenges Completed" value={challengesCompleted} hint="Estimated, 50pts each" />
+        <StatCard label="Rank" value={rank} hint="Climb ranks by playing" />
       </section>
 
       {/* Badges */}
-      <section className="max-w-6xl mx-auto bg-gradient-to-br from-black via-slate-950 to-black border border-green-500/60 rounded-2xl p-6 md:p-7 shadow-[0_0_35px_rgba(34,197,94,0.28)]">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl md:text-2xl font-semibold">
-            🏅 Earned Badges
-          </h2>
-          <span className="text-xs text-green-400/80">
-            {badges.length} badge{badges.length === 1 ? "" : "s"}
-          </span>
+      <section className="max-w-6xl mx-auto bg-slate-950 border border-green-500/60 rounded-2xl p-6 md:p-7 shadow-[0_0_35px_rgba(34,197,94,0.28)] mb-10">
+        <div className="flex justify-between mb-4">
+          <h2 className="text-xl md:text-2xl font-semibold">🏅 Earned Badges</h2>
+          <span className="text-xs text-green-400/80">{badges.length} badge(s)</span>
         </div>
 
         {loading ? (
-          <p className="text-green-300 text-sm">Loading your progress…</p>
+          <p className="text-green-300">Loading badges…</p>
         ) : badges.length === 0 ? (
           <p className="text-green-300 text-sm">
-            No badges yet — start playing CTF challenges to unlock achievements.
+            No badges yet — complete challenges to earn badges.
           </p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
             {badges.map((badge, index) => (
               <div
                 key={index}
-                className="bg-green-500 text-black font-semibold rounded-xl px-3 py-2 text-center text-xs md:text-sm shadow-[0_0_25px_rgba(34,197,94,0.6)] flex items-center justify-center"
+                className="bg-green-500 text-black font-semibold rounded-xl px-3 py-2 text-center shadow-lg"
               >
                 {badge}
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* My Courses */}
+      <section className="max-w-6xl mx-auto bg-slate-950 border border-green-500/60 rounded-2xl p-6 md:p-7 shadow-[0_0_35px_rgba(34,197,94,0.28)]">
+        <h2 className="text-xl md:text-2xl font-semibold mb-4">📚 My Courses</h2>
+
+        {enrolledCourses.length === 0 ? (
+          <p className="text-green-300 text-sm">
+            You have not enrolled in any course yet.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+            {enrolledCourses.map((course, index) => (
+              <div
+                key={index}
+                className="border border-green-500 p-4 rounded-xl bg-black/40"
+              >
+                <h3 className="text-lg font-bold">{course.title}</h3>
+                <p className="text-green-300 text-sm mb-3">{course.desc}</p>
+
+                <Link
+                  to={`/courses/${course.id}`}
+                  className="inline-block bg-green-500 text-black px-4 py-2 rounded-lg font-semibold hover:bg-green-400"
+                >
+                  Continue Course
+                </Link>
               </div>
             ))}
           </div>
@@ -128,13 +145,9 @@ export default function Dashboard() {
 
 function StatCard({ label, value, hint }) {
   return (
-    <div className="bg-gradient-to-br from-slate-950 via-black to-slate-950 border border-green-500/60 rounded-2xl p-5 shadow-[0_0_30px_rgba(34,197,94,0.25)] transform hover:-translate-y-1 hover:shadow-[0_0_35px_rgba(34,197,94,0.4)] transition-all duration-150">
-      <p className="text-xs uppercase tracking-wide text-green-400/80 mb-1">
-        {label}
-      </p>
-      <p className="text-2xl md:text-3xl font-extrabold text-green-300 mb-1">
-        {value}
-      </p>
+    <div className="bg-slate-950 border border-green-500/60 rounded-2xl p-5 shadow-lg">
+      <p className="text-xs uppercase tracking-wide text-green-400/80 mb-1">{label}</p>
+      <p className="text-2xl md:text-3xl font-extrabold text-green-300 mb-1">{value}</p>
       <p className="text-[11px] text-green-500/80">{hint}</p>
     </div>
   );

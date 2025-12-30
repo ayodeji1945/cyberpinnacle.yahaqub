@@ -22,7 +22,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import Profile from "./pages/dashboard/profile";
 import Dashboard from "./pages/dashboard/Dashboard";
 
-// Articles / Blog
+// Articles
 import Articles from "./pages/Articles";
 import ArticleTemplate from "./pages/articles/ArticleTemplate";
 
@@ -39,20 +39,23 @@ import Reports from "./pages/ai/Reports";
 import CTF from "./pages/ctf/CTF";
 import ChallengeDetails from "./pages/ctf/ChallengeDetails";
 
-// Auth & Protection
+// Auth
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
-import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import VerifyOTP from "./pages/auth/VerifyOTP";
 import VerifyEmail from "./pages/auth/VerifyEmail";
+
+// Protection
+import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 // Leaderboard
 import Leaderboard from "./pages/leaderboard/Leaderboard";
 
-// Training & Courses
+// Training
 import Training from "./pages/training/Training";
 import Courses from "./pages/Courses";
+import CourseDetails from "./pages/training/CourseDetails";
 import Memberships from "./pages/training/Memberships";
 import TrainingPackages from "./pages/training/TrainingPackages";
 import CareerTraining from "./pages/training/CareerTraining";
@@ -60,7 +63,6 @@ import ForOrganizations from "./pages/training/ForOrganizations";
 import ListCourses from "./pages/training/ListCourses";
 import TrainingPaths from "./pages/training/TrainingPaths";
 import ComparePackages from "./pages/training/ComparePackages";
-import CourseDetails from "./pages/training/CourseDetails";
 
 function App() {
   return (
@@ -71,14 +73,14 @@ function App() {
         <div className="flex-grow">
           <Routes>
 
-            {/* Main Pages */}
+            {/* Main */}
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/team" element={<Team />} />
 
-            {/* Profile (Protected) */}
+            {/* Profile */}
             <Route
               path="/profile"
               element={
@@ -92,7 +94,7 @@ function App() {
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:slug" element={<ArticleTemplate />} />
 
-            {/* AI Platform Nested */}
+            {/* AI Platform */}
             <Route path="/ai" element={<AILayout />}>
               <Route index element={<CyberAI />} />
               <Route path="dashboard" element={<AIDashboardHome />} />
@@ -102,7 +104,7 @@ function App() {
               <Route path="reports" element={<Reports />} />
             </Route>
 
-            {/* Admin Dashboard Protected */}
+            {/* Admin */}
             <Route
               path="/admin"
               element={

@@ -1,43 +1,44 @@
+// src/pages/Courses.js
 import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Courses() {
   const categories = [
     {
+      id: "cybersecurity-fundamentals",
       title: "Cybersecurity Fundamentals",
-      desc: "Start from zero and build a strong foundation in cybersecurity basics.",
+      desc: "Start from zero and build strong foundational cybersecurity skills.",
       color: "border-green-400",
-      route: "/training-paths",
     },
     {
+      id: "penetration-testing",
       title: "Penetration Testing & Red Teaming",
-      desc: "Hands-on hacking courses covering real-world attack & defense simulation.",
+      desc: "Hands-on offensive security and real-world attack simulation.",
       color: "border-red-500",
-      route: "/training-paths",
     },
     {
-      title: "Ethical Hacking / CEH Preparation",
-      desc: "Prepare for professional certification and advanced exam-level tactics.",
+      id: "ethical-hacking",
+      title: "Ethical Hacking (CEH Track)",
+      desc: "Master practical hacking and prepare for CEH certification.",
       color: "border-blue-400",
-      route: "/training-packages",
     },
     {
+      id: "soc-blue-team",
       title: "SOC / Blue Team Defense",
-      desc: "Learn monitoring, incident response, detection engineering & SIEM tools.",
+      desc: "Learn SIEM monitoring, threat detection, and incident response.",
       color: "border-yellow-400",
-      route: "/training-packages",
     },
     {
+      id: "forensics-malware",
       title: "Forensics & Malware Analysis",
-      desc: "Deep dive reverse engineering, malware behaviour & digital investigation.",
+      desc: "Deep dive digital forensics, reverse engineering & malware labs.",
       color: "border-purple-500",
-      route: "/training-packages",
     },
     {
+      id: "osint-intelligence",
       title: "OSINT & Cyber Intelligence",
-      desc: "Master reconnaissance and intelligence collection like professionals.",
+      desc: "Learn reconnaissance, intelligence gathering & investigation.",
       color: "border-orange-500",
-      route: "/training-paths",
     },
   ];
 
@@ -45,25 +46,25 @@ export default function Courses() {
     <div className="min-h-screen bg-black text-green-400 pt-32 px-6">
       <h1 className="text-4xl font-bold text-center">Cybersecurity Courses</h1>
       <p className="text-center text-green-300 mt-4 max-w-3xl mx-auto">
-        Learn industry-standard cybersecurity skills through advanced hands-on training,
-        real lab environments, and CTF gamified learning.
+        Master cybersecurity skills through hands-on labs, real attacks,
+        simulated environments, and guided career paths.
       </p>
 
       {/* Course Categories */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-        {categories.map((course, idx) => (
+        {categories.map((course) => (
           <div
-            key={idx}
-            className={`bg-gray-900 border ${course.color} p-6 rounded-2xl hover:scale-105 shadow-lg transition`}
+            key={course.id}
+            className={`bg-gray-900 border ${course.color} p-6 rounded-2xl hover:scale-105 shadow-lg transition duration-150`}
           >
             <h2 className="text-2xl font-bold mb-2">{course.title}</h2>
             <p className="text-green-300 mb-4">{course.desc}</p>
 
             <Link
-              to={course.route}
+              to={`/courses/${course.id}`}
               className="block bg-green-500 text-black font-bold text-center py-2 rounded-lg hover:bg-green-400"
             >
-              Explore Content
+              View Course
             </Link>
           </div>
         ))}
